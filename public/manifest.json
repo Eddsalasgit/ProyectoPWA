@@ -3,7 +3,7 @@
     "background_color": "#f69435",
     "display": "standalone",
     "scope": "/",
-    "start_url": "/",
+    "start_url": "/signin",
     "name": "Reminders",
     "short_name": "Notes",
     "icons": [
