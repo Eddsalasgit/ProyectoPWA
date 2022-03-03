@@ -7,6 +7,8 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <Head />
+        <link rel="manifest" href="/manifest.json"></link>
+        <link rel="apple-touch-icon" href="/icon.png"></link>
         <body>
           {/* 👇 Here's the script */}
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
