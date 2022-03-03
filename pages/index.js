@@ -1,7 +1,6 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box, HStack, SimpleGrid, Tag } from "@chakra-ui/react";
 import Head from "next/head";
-// import Link, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import ManageTodo from "../components/ManageNotas";
 import Navbar from "../components/Navbar";
