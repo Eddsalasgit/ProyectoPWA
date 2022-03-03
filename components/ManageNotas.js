@@ -23,20 +23,24 @@ import {
   import { useRouter } from "next/router";
   import en from "../translations/en.json"
   import es from "../translations/es.json"
+  import RecordAudio from "./RecordAudio";
 
   const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [isComplete, setIsComplete] = useState(false);
+    const [imagen, setImagen] = useState("");
+    // const [audio, setAudio] = useState("");
     const [isLoading, setIsLoading] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const {locale, locales} = useRouter();
+    const {locale} = useRouter();
     const t = locale === "en" ? en : es;
     useEffect(() => {
       if (todo) {
         setTitle(todo.title);
         setDescription(todo.description);
         setIsComplete(todo.isComplete);
+        setImagen(todo.imagen);
       }
     }, [todo]);
   
@@ -53,13 +57,13 @@ import {
       if (todo) {
         const { error } = await supabaseClient
           .from("reminder")
-          .update({ title, description, isComplete, user_id: user.id })
+          .update({ title, description, isComplete, user_id: user.id,imagen })
           .eq("id", todo.id);
         supabaseError = error;
       } else {
         const { error } = await supabaseClient
           .from("reminder")
-          .insert([{ title, description, isComplete, user_id: user.id }]);
+          .insert([{ title, description, isComplete, user_id: user.id,imagen }]);
         supabaseError = error;
       }
   
@@ -69,6 +73,19 @@ import {
       } else {
         closeHandler();
       }
+    };
+
+    const handleChange = async (event) => {
+      let file = event.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(file);  
+      reader.onload = function () {
+        console.log(reader.result);
+        setImagen(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
     };
   
     const closeHandler = () => {
@@ -83,7 +100,7 @@ import {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        isCentered
+        autoFocus
         initialFocusRef={initialRef}
       >
         <ModalOverlay />
@@ -118,6 +135,15 @@ import {
                 <FormHelperText>
                   {t.Manage.DescriptionN}
                 </FormHelperText>
+              </FormControl>
+
+              <FormControl>
+                <input type="file" onChange={handleChange} />
+                <img src={imagen} alt="imagen" handleChange={(event) => setImagen(event.target.value)} />
+              </FormControl>
+
+              <FormControl mt={4}>
+                <RecordAudio />
               </FormControl>
   
               <FormControl mt={4}>

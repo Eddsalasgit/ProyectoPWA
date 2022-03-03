@@ -16,14 +16,14 @@ const Home = () => {
   const [todo, setTodo] = useState(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-  const {router, asPath, locale, locales} = useRouter();
+  const {router, locale} = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = supabaseClient.auth.user();
 
   useEffect(() => {
-    if (!user) {
-      router.push("/signin");
-    }
+    // if (!user) {
+    //   router.push("/signin");
+    // }
   }, [user, router]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Home = () => {
   const deleteHandler = async (todoId) => {
     setIsDeleteLoading(true);
     const { error } = await supabaseClient
-      .from("todos")
+      .from("reminder")
       .delete()
       .eq("id", todoId);
     if (!error) {

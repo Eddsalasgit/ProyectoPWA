@@ -7,7 +7,6 @@ import {
     FormLabel,
     Input,
     Stack,
-    Textarea,
   } from "@chakra-ui/react";
   import { useEffect, useState } from "react";
   import Navbar from "../components/Navbar";
@@ -20,15 +19,15 @@ import {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [website, setWebsite] = useState("");
-    const [bio, setBio] = useState("");
-    const [avatarurl, setAvatarurl] = useState("");
+    // const [bio, setBio] = useState("");
+    const [avatar_url, setAvatar_url] = useState("");
   
     const [isLoading, setIsLoading] = useState(false);
     const [isImageUploadLoading, setIsImageUploadLoading] = useState(false);
   
     const user = supabaseClient.auth.user();
 
-    const {locale, locales} = useRouter();
+    const {locale} = useRouter();
     const t = locale === "en" ? en : es;
   
     useEffect(() => {
@@ -42,17 +41,18 @@ import {
             if (!error) {
               setUsername(data[0].username || "");
               setWebsite(data[0].website || "");
-              setBio(data[0].bio || "");
-              setAvatarurl(data[0].avatarurl || "");
+              // setBio(data[0].bio || "");
+              setAvatar_url(data[0].avatar_url || "");
             }
           });
       }
+      console.log(user.id);
     }, [user]);
   
     const updateHandler = async (event) => {
       event.preventDefault();
       setIsLoading(true);
-      const body = { username, website, bio };
+      const body = { username, website};
       const userId = user.id;
       const { error } = await supabaseClient
         .from("profiles")
@@ -61,7 +61,7 @@ import {
       if (!error) {
         setUsername(body.username);
         setWebsite(body.website);
-        setBio(body.bio);
+        // setBio(body.bio);
       }
       setIsLoading(false);
     };
@@ -105,10 +105,10 @@ import {
       await supabaseClient
         .from("profiles")
         .update({
-          avatarurl: publicURL,
+          avatar_url: publicURL,
         })
         .eq("id", userId);
-      setAvatarurl(publicURL);
+      setAvatar_url(publicURL);
       setIsImageUploadLoading(false);
     };
   
@@ -119,7 +119,7 @@ import {
           <Flex align="center" justify="center" direction="column">
             <Avatar
               size="2xl"
-              src={avatarurl || ""}
+              src={avatar_url || ""}
               name={username || user?.email}
             />
             <FormLabel
@@ -175,14 +175,14 @@ import {
                 onChange={(event) => setWebsite(event.target.value)}
               />
             </FormControl>
-            <FormControl id="bio">
+            {/* <FormControl id="bio">
               <FormLabel>{t.Profile.Bio}</FormLabel>
               <Textarea
                 placeholder={t.Profile.BioD}
                 value={bio}
                 onChange={(event) => setBio(event.target.value)}
               />
-            </FormControl>
+            </FormControl> */}
             <Button colorScheme="blue" type="submit" isLoading={isLoading}>
               {t.Profile.Upd}
             </Button>

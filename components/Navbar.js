@@ -9,7 +9,7 @@ import es from "../translations/es.json"
 import Selector from "./Selector";
 
 const Navbar = ({ onOpen }) => {
-  const {router, asPath, locale, locales} = useRouter();
+  const {router, asPath, locale} = useRouter();
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const t = locale === "en" ? en : es;
   const logoutHandler = async () => {
@@ -38,8 +38,8 @@ const Navbar = ({ onOpen }) => {
               {t.navbar.Heading}
             </Heading>
           </NavLink>
-          <Selector/>
           <Box>
+            <Selector/>
             <NavLink href="/profile">{t.navbar.ButtonP}</NavLink>
             <ButtonGroup spacing="4" ml="6">
               {asPath === "/" && (
