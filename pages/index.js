@@ -1,12 +1,13 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box, HStack, SimpleGrid, Tag } from "@chakra-ui/react";
 import Head from "next/head";
-import Link, { useRouter } from "next/router";
+// import Link, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import ManageTodo from "../components/ManageNotas";
 import Navbar from "../components/Navbar";
 import SingleTodo from "../components/SingleNotas";
 import { supabaseClient } from "../lib/supabaseClient";
+import { useRouter } from "next/router";
 import en from "../translations/en.json"
 import es from "../translations/es.json"
 
