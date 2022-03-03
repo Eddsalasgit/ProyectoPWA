@@ -1,12 +1,14 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box, HStack, SimpleGrid, Tag } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import ManageTodo from "../components/ManageNotas";
 import Navbar from "../components/Navbar";
 import SingleTodo from "../components/SingleNotas";
-import { supabaseClient } from "../lib/supabaseClient";
-import { useRouter } from "next/router";
+import { supabaseClient } from "../lib/supabaseClient"
+// import Auth from "../components/Auth";
+
 import en from "../translations/en.json"
 import es from "../translations/es.json"
 
@@ -15,6 +17,7 @@ const Home = () => {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  // const [session, setSession] = useState(null)
 
   const {router, locale} = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,6 +28,14 @@ const Home = () => {
       router.push("/signin");
     }
   }, [user, router]);
+
+  // useEffect(() => {
+  //   setSession(supabaseClient.auth.session())
+
+  //   supabaseClient.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session)
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (user) {
@@ -98,6 +109,7 @@ const Home = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/* {!session ? <Signin /> : <Account key={session.user.id} session={session} />} */}
       <main>
         <Navbar onOpen={onOpen} />
         <ManageTodo
