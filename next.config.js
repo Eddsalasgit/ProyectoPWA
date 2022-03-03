@@ -13,7 +13,8 @@ const nextConfig = withAPI ({
   i18n:{
     locales: ["en", "es"],
     defaultLocale: "es"
-  }
+  },
+  basePath: "/signin"
 })
 
 module.exports = nextConfig
