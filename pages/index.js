@@ -1,65 +1,146 @@
-import { Box, Button, ButtonGroup, Flex, Heading } from "@chakra-ui/react";
-import NavLink from "next/link";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { Box, HStack, SimpleGrid, Tag } from "@chakra-ui/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ManageTodo from "../components/ManageNotas";
+import Navbar from "../components/Navbar";
+import SingleTodo from "../components/SingleNotas";
 import { supabaseClient } from "../lib/supabaseClient";
-
 import en from "../translations/en.json"
 import es from "../translations/es.json"
-import Selector from "./Selector";
 
-const Navbar = ({ onOpen }) => {
-  const {router, asPath, locale, locales} = useRouter();
-  const [isLogoutLoading, setIsLogoutLoading] = useState(false);
-  const t = locale === "en" ? en : es;
-  const logoutHandler = async () => {
-    try {
-      setIsLogoutLoading(true);
-      await supabaseClient.auth.signOut();
-      locale.push("/signin");
-    } catch (error) {
-      locale.push("/signin");
-    } finally {
-      setIsLogoutLoading(false);
+const Home = () => {
+  const initialRef = useRef();
+  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState(null);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+
+  const {router, locale} = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = supabaseClient.auth.user();
+
+  useEffect(() => {
+   // if (!user) {
+     // locale.push("/signin");
+    //}
+  }, [user, router]);
+
+  useEffect(() => {
+    if (user) {
+      supabaseClient
+        .from("reminder")
+        .select("*")
+        .eq("user_id", user?.id)
+        .order("id", { ascending: false })
+        .then(({ data, error }) => {
+          if (!error) {
+            setTodos(data);
+          }
+        });
     }
+  }, [user]);
+
+  useEffect(() => {
+    const todoListener = supabaseClient
+      .from("reminder")
+      .on("*", (payload) => {
+        if (payload.eventType !== "DELETE") {
+          const newTodo = payload.new;
+          setTodos((oldTodos) => {
+            const exists = oldTodos.find((todo) => todo.id === newTodo.id);
+            let newTodos;
+            if (exists) {
+              const oldTodoIndex = oldTodos.findIndex(
+                (obj) => obj.id === newTodo.id
+              );
+              oldTodos[oldTodoIndex] = newTodo;
+              newTodos = oldTodos;
+            } else {
+              newTodos = [...oldTodos, newTodo];
+            }
+            newTodos.sort((a, b) => b.id - a.id);
+            return newTodos;
+          });
+        }
+      })
+      .subscribe();
+
+    return () => {
+      todoListener.unsubscribe();
+    };
+  }, []);
+
+  const openHandler = (clickedTodo) => {
+    setTodo(clickedTodo);
+    onOpen();
   };
 
+  const deleteHandler = async (todoId) => {
+    setIsDeleteLoading(true);
+    const { error } = await supabaseClient
+      .from("reminder")
+      .delete()
+      .eq("id", todoId);
+    if (!error) {
+      setTodos(todos.filter((todo) => todo.id !== todoId));
+    }
+    setIsDeleteLoading(false);
+  };
+  // aqui mero en la linea 99 en adelante :3  
+  //ademas de que debes de ir al apartado de ManageNotas.js para tomar unas lineas de codigo y colocarle la imagen ademas de un 
+  //buscador de imagen así bien mamalon 
+  const t = locale === "en" ? en : es;
   return (
-    <Box height="100%" p="5" bg="gray.100">
-      <Box maxW="6xl" mx="auto">
-        <Flex
-          as="nav"
-          aria-label="Site navigation"
-          align="center"
-          justify="space-between"
-        >
-          <NavLink href="/">
-            <Heading mr="4" as="button">
-              {t.navbar.Heading}
-            </Heading>
-          </NavLink>
-          <Selector/>
+    <div>
+
+    
+      <Head>
+        <title>{t.index.title}</title>
+        <meta
+          name="description"
+          content="Awesome todoapp to store your awesome todos"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <Navbar onOpen={onOpen} />
+        <ManageTodo
+          isOpen={isOpen}
+          onClose={onClose}
+          initialRef={initialRef}
+          todo={todo}
+          setTodo={setTodo}
+        />
+        <HStack m="10" spacing="4" justify="center">
           <Box>
-            <NavLink href="/profile">{t.navbar.ButtonP}</NavLink>
-            <ButtonGroup spacing="4" ml="6">
-              {asPath === "/" && (
-                <Button colorScheme="blue" onClick={onOpen}>
-                  {t.navbar.ButtonAdd}
-                </Button>
-              )}
-              <Button
-                colorScheme="red"
-                onClick={logoutHandler}
-                isLoading={isLogoutLoading}
-              >
-                {t.navbar.ButtonLO}
-              </Button>
-            </ButtonGroup>
+            <Tag bg="green.500" borderRadius="3xl" size="sm" mt="1" /> 
+            {t.index.CatCo}
           </Box>
-        </Flex>
-      </Box>
-    </Box>
+          <Box>
+            <Tag bg="yellow.400" borderRadius="3xl" size="sm" mt="1" />{" "}
+            {t.index.CatIn}
+          </Box>
+         
+        </HStack>
+        <SimpleGrid
+          columns={{ base: 2, md: 3, lg: 4 }}
+          gap={{ base: "4", md: "6", lg: "8" }}
+          m="10"
+        >
+          {todos.map((todo, index) => (
+            <SingleTodo
+              todo={todo}
+              key={index}
+              openHandler={openHandler}
+              deleteHandler={deleteHandler}
+              isDeleteLoading={isDeleteLoading}
+            />
+          ))}
+        </SimpleGrid>
+      </main>
+    </div>
   );
 };
 
-export default Navbar;
+export default Home;
