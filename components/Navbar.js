@@ -40,6 +40,7 @@ const Navbar = ({ onOpen }) => {
           </NavLink>
           <Selector/>
           <Box>
+            <NavLink href="https://github.com/Eddsalasgit/ProyectoPWA">GitHub     </NavLink>
             <NavLink href="/profile">{t.navbar.ButtonP}</NavLink>
             <ButtonGroup spacing="4" ml="6">
               {asPath === "/" && (
