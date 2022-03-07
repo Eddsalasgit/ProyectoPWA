@@ -1,14 +1,16 @@
 {
     "navbar": {
-        "Heading": "Recordatorios",
-        "ButtonAdd": "Crear Recordatorio",
+        "Heading": "Notas Personales",
+        "ButtonAdd": "Crear Nota",
         "ButtonLO": "Cerrar Sesión",
         "ButtonP": "Perfil"
     },
     "index": {
         "CatCo": "Completo",
         "CatIn": "Incompleto",
-        "title": "Recordatorio"
+        "title": "Notas Personales",
+        "CatIm":" Importante",
+        "CatNoImp":"No Importante"
     },
     "Manage": {
         "titleNota": "Titúlo",
