@@ -1,6 +1,6 @@
 {
     "navbar": {
-        "Heading": "Reminders",
+        "Heading": "Personal Notes",
         "ButtonLO": "LogOut",
         "ButtonP": "Profile",
         "ButtonAdd": "Add Note"
@@ -8,14 +8,14 @@
     "index": {
         "CatCo": "Complete",
         "CatIn": "Incomplete",
-        "title": "Reminder",
+        "title": "Personal Notes",
         "CatIm":" It's Important",
         "CatNoImp":"It's not important"
     },
     "Manage": {
         "titleNota": "title",
-        "Update": "Modificar Nota",
-        "New": "Crear nota",
+        "Update": "Update Note",
+        "New": "Create note",
         "Addt": "Add your title here",
         "AddD": "Add your description here",
         "Description": "Description",
