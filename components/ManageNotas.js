@@ -121,7 +121,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      isCentered
+      autoFocus
       initialFocusRef={initialRef}
     >
       <ModalOverlay />
