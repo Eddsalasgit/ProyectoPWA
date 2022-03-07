@@ -121,6 +121,15 @@ const Home = () => {
             <Tag bg="yellow.400" borderRadius="3xl" size="sm" mt="1" />{" "}
             {t.index.CatIn}
           </Box>
+
+        <Box>
+          <Tag bg="red.600" borderRadius="3xl" size="sm" mt="1" />{" "}
+          {t.index.CatIm}
+          </Box>
+          <Box>
+          <Tag bg="orange.500" borderRadius="3xl" size="sm" mt="1" />{" "}
+          {t.index.CatNoImp}
+          </Box>
          
         </HStack>
         <SimpleGrid
