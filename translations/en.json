@@ -1,14 +1,16 @@
 {
     "navbar": {
         "Heading": "Reminders",
-        "ButtonAdd": "Add Reminder",
         "ButtonLO": "LogOut",
-        "ButtonP": "Profile"
+        "ButtonP": "Profile",
+        "ButtonAdd": "Add Note"
     },
     "index": {
         "CatCo": "Complete",
         "CatIn": "Incomplete",
-        "title": "Reminder"
+        "title": "Reminder",
+        "CatIm":" It's Important",
+        "CatNoImp":"It's not important"
     },
     "Manage": {
         "titleNota": "title",
@@ -18,6 +20,7 @@
         "AddD": "Add your description here",
         "Description": "Description",
         "Question": "Is Completed?",
+        "QuestionI":"Is important?",
         "DescriptionN": "Description must have more than 10 characters."
     },
     "Single":{
