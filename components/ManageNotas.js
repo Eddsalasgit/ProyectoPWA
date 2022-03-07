@@ -40,7 +40,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
   ///////////////////////////////////////
   const [errorMessage, setErrorMessage] = useState("");
   const {locale, locales} = useRouter();
-  const [isImportant, setIsImportant]= useState(false);
+  const [esImportant, setisImportant]= useState(false);
   const t = locale === "en" ? en : es;
 
 
@@ -51,7 +51,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
       setDescription(todo.description);
       setIsComplete(todo.isComplete);
       setImg(todo.imagen);  
-      setIsImportant(todo.isImportant);
+      setIsImportant(todo.esImportant);
     }
   }, [todo]);
 
@@ -71,13 +71,13 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
       const { error } = await supabaseClient
         .from("reminder")
 
-        .update({ title, description, isComplete,imagen,isImportant, user_id: user.id })
+        .update({ title, description, isComplete,imagen,esImportant, user_id: user.id })
         .eq("id", todo.id);
       supabaseError = error;
     } else {
       const { error } = await supabaseClient
         .from("reminder")
-        .insert([{ title, description, isComplete,imagen,isImportant, user_id: user.id }]);
+        .insert([{ title, description, isComplete,imagen,esImportant, user_id: user.id }]);
       supabaseError = error;
     }
 
@@ -189,9 +189,9 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
             <FormControl mt={5}>
               <FormLabel>{t.Manage.QuestionI}</FormLabel>
               <Switch
-              isChecked={isImportant}
+              isChecked={esImportant}
               id="is-important"
-               onChange={(event)=>setIsImportant(!isImportant)}
+               onChange={(event)=>setIsImportant(!esImportant)}
               />
               </FormControl>
               {/* final de categoria "IMPORTANTE"  */}
