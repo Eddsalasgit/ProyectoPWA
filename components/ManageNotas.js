@@ -40,7 +40,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
   ///////////////////////////////////////
   const [errorMessage, setErrorMessage] = useState("");
   const {locale, locales} = useRouter();
-  const [esImportant, setisImportant]= useState(false);
+  const [esImportant, setIsImportant]= useState(false);
   const t = locale === "en" ? en : es;
 
 
