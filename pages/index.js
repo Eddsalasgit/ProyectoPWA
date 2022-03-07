@@ -15,7 +15,7 @@ const Home = () => {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-
+  const [isLoading,setIsLoading]= useState(true);
   const {router, locale} = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = supabaseClient.auth.user();
@@ -87,9 +87,20 @@ const Home = () => {
     }
     setIsDeleteLoading(false);
   };
-  // aqui mero en la linea 99 en adelante :3  
-  //ademas de que debes de ir al apartado de ManageNotas.js para tomar unas lineas de codigo y colocarle la imagen ademas de un 
-  //buscador de imagen así bien mamalon 
+  ///////////////////////////////////
+
+  const updateHandler = async (todoId) => {
+    setIsLoading(true);
+    const { error } = await supabaseClient
+      .from("reminder")
+      .delete()
+      .eq("id", todoId);
+    if (!error) {
+      setTodos(todos.filter((todo) => todo.id !== todoId));
+    }
+    setIsLoading(true);
+  };
+  //////////////////////////////////
   const t = locale === "en" ? en : es;
   return (
     <div>
@@ -144,6 +155,8 @@ const Home = () => {
               openHandler={openHandler}
               deleteHandler={deleteHandler}
               isDeleteLoading={isDeleteLoading}
+              updateHandler={updateHandler}
+              isLoading={isLoading}
             />
           ))}
         </SimpleGrid>
