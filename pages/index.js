@@ -16,15 +16,15 @@ const Home = () => {
   const [todo, setTodo] = useState(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isLoading,setIsLoading]= useState(true);
-  const {router, locale} = useRouter();
+  const {Router, locale} = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = supabaseClient.auth.user();
 
   useEffect(() => {
-   // if (!user) {
-     // locale.push("/signin");
-    //}
-  }, [user, router]);
+    if (!user) {
+      Router.push("/signin");
+    }
+  }, [user, Router]);
 
   useEffect(() => {
     if (user) {
