@@ -20,8 +20,8 @@
         "AddD": "Añade una descripción",
         "Description": "Descripcion",
         "DescriptionN": "La descripción debe contener mas de 10 caracteres",
-        "Question": "¿Está completo?"
-        "QuestionI":"¿Es importante?",
+        "Question": "¿Está completo?",
+        "QuestionI":"¿Es importante?"
     },
     "Single":{
         "Delete": "Borrar"
