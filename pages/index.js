@@ -20,12 +20,12 @@ const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = supabaseClient.auth.user();
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!user) {
       Router.push("/signin");
     }
   }, [user, Router]);
-
+*/
   useEffect(() => {
     if (user) {
       supabaseClient
