@@ -201,7 +201,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
             <ButtonGroup spacing="3">
               <Button onClick={closeHandler} colorScheme="red" type="reset" isDisabled={isLoading}>Cancel  </Button>
 
-             <Button colorScheme="blue" type="submit" isLoading={isLoading} onClick={()=>router.reload()}> {todo ? "Update" : "Save"} </Button>
+             <Button colorScheme="blue" type="submit" isLoading={isLoading}> {todo ? "Update" : "Save"} </Button>
               
             </ButtonGroup>
 
