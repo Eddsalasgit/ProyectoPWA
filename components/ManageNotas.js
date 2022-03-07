@@ -159,16 +159,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
 
               </FormHelperText>
             </FormControl>
-{/* principio categoria "IMPORTANTE"  */}
-            <FormControl mt={5}>
-              <FormLabel>{t.Manage.QuestionI}</FormLabel>
-              <Switch
-              isChecked={isImportant}
-              id="is-important"
-               onChange={(event)=>setIsImportant(!isImportant)}
-              />
-              </FormControl>
-              {/* final de categoria "IMPORTANTE"  */}
+
 {/* ///formcontrol de imagen */}
             <FormControl>
              
@@ -194,6 +185,16 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
                 onChange={(event) => setIsComplete(!isComplete)}
               />
             </FormControl>
+{/* principio categoria "IMPORTANTE"  */}
+            <FormControl mt={5}>
+              <FormLabel>{t.Manage.QuestionI}</FormLabel>
+              <Switch
+              isChecked={isImportant}
+              id="is-important"
+               onChange={(event)=>setIsImportant(!isImportant)}
+              />
+              </FormControl>
+              {/* final de categoria "IMPORTANTE"  */}
           </ModalBody>
        
           <ModalFooter>
