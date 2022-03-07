@@ -25,7 +25,7 @@ const Navbar = ({ onOpen }) => {
   };
 
   return (
-    <Box height="100%" p="5" bg="gray.100">
+    <Box height="100%" p="5" bg="gray.400">
       <Box maxW="6xl" mx="auto">
         <Flex
           as="nav"
