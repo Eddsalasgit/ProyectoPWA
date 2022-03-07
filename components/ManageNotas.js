@@ -22,6 +22,8 @@ import {
 import { useEffect, useState } from "react"
 import { supabaseClient } from "../lib/supabaseClient"
 import { useRouter } from "next/router"
+import AudioRecorder from "../components/RecordAudio"
+
 import en from "../translations/en.json"
 import es from "../translations/es.json"
 
@@ -38,6 +40,7 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
   ///////////////////////////////////////
   const [errorMessage, setErrorMessage] = useState("");
   const {locale, locales} = useRouter();
+  const [isImportant, setIsImportant]= useState(false);
   const t = locale === "en" ? en : es;
 
 
@@ -47,7 +50,8 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
       setTitle(todo.title);
       setDescription(todo.description);
       setIsComplete(todo.isComplete);
-      setImg(todo.imagen);  // coloque este mero :v 
+      setImg(todo.imagen);  
+      setIsImportant(todo.isImportant);
     }
   }, [todo]);
 
@@ -67,13 +71,13 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
       const { error } = await supabaseClient
         .from("reminder")
 
-        .update({ title, description, isComplete,imagen, user_id: user.id })
+        .update({ title, description, isComplete,imagen,isImportant, user_id: user.id })
         .eq("id", todo.id);
       supabaseError = error;
     } else {
       const { error } = await supabaseClient
         .from("reminder")
-        .insert([{ title, description, isComplete,imagen, user_id: user.id }]);
+        .insert([{ title, description, isComplete,imagen,isImportant, user_id: user.id }]);
       supabaseError = error;
     }
 
@@ -155,6 +159,16 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
 
               </FormHelperText>
             </FormControl>
+{/* principio categoria "IMPORTANTE"  */}
+            <FormControl mt={5}>
+              <FormLabel>{t.Manage.QuestionI}</FormLabel>
+              <Switch
+              isChecked={isImportant}
+              id="is-important"
+               onChange={(event)=>setIsImportant(!isImportant)}
+              />
+              </FormControl>
+              {/* final de categoria "IMPORTANTE"  */}
 {/* ///formcontrol de imagen */}
             <FormControl>
              
@@ -165,6 +179,13 @@ const ManageTodo = ({ isOpen, onClose, initialRef, todo, setTodo }) => {
              </FormControl>
 
 {/* //termino de formcontrol de imagen */}
+{/*Se implementa el audio*/}
+            <FormControl>
+                <AudioRecorder>
+                  
+                </AudioRecorder>
+              </FormControl>
+{/*Se termina de implementar audio*/}
             <FormControl mt={4}>
               <FormLabel>{t.Manage.Question}</FormLabel>
               <Switch
